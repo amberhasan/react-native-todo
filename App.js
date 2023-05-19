@@ -7,13 +7,21 @@ const Tab = createBottomTabNavigator();
 
 function CreateTodoScreen() {
   let [todoList, setTodoList] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
+  const [todoValue, setTodoValue] = useState("");
+
+  const createTodoItem = (value) => {
+    return {
+      id: Math.random() * 100 + 1,
+      name: value,
+      completed: false,
+    };
+  };
 
   const addTodo = () => {
     if (newTodo.trim() !== "") {
-      todoList = [...todoList, newTodo];
+      todoList = [...todoList, createTodoItem(todoValue)];
       setTodoList(todoList); //make the current list include the todo, //setTodoList((todoList) => [...todoList, newTodo]);
-      setNewTodo(""); //make the current newTodo be empty string
+      setTodoValue(""); //make the current newTodo be empty string
     }
   };
 
@@ -21,23 +29,25 @@ function CreateTodoScreen() {
     setTodoList([]);
   };
 
+  //device 320
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <TextInput
-        placeholder="Enter a TODO item"
-        value={newTodo}
-        onChangeText={setNewTodo}
+    <View style={{ flex: 1, backgroundColor: "lightpink", padding: 10 }}>
+      <View
         style={{
-          marginBottom: 10,
+          flex: 0,
+          backgroundColor: "lightgreen",
           padding: 10,
-          borderWidth: 1,
-          borderColor: "gray",
-          width: 200,
+          flexDirection: "row",
+          alignItems: "center",
         }}
-      />
-      <Button title="Add TODO" onPress={addTodo} color="green" />
-      <Button title="Clear TODO List" onPress={clearTodoList} color="red" />
-      <Text>{todoList.join("\n")}</Text>
+      >
+        <TextInput
+          style={{ borderColor: "gray", borderWidth: 2, margin: 10, flex: 1 }}
+        />
+        <Button title="Add" />
+      </View>
+      <View style={{ flex: 1, backgroundColor: "tomato" }}></View>
     </View>
   );
 }
