@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 function CreateTodoScreen() {
-  let [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState([]);
   const [todoValue, setTodoValue] = useState("");
 
   const createTodoItem = (value) => {
@@ -18,18 +18,12 @@ function CreateTodoScreen() {
   };
 
   const addTodo = () => {
-    if (newTodo.trim() !== "") {
-      todoList = [...todoList, createTodoItem(todoValue)];
-      setTodoList(todoList); //make the current list include the todo, //setTodoList((todoList) => [...todoList, newTodo]);
-      setTodoValue(""); //make the current newTodo be empty string
+    if (todoValue.trim() !== "") {
+      const newTodo = createTodoItem(todoValue);
+      setTodoList([...todoList, newTodo]);
+      setTodoValue("");
     }
   };
-
-  const clearTodoList = () => {
-    setTodoList([]);
-  };
-
-  //device 320
 
   return (
     <View style={{ flex: 1, backgroundColor: "lightpink", padding: 10 }}>
@@ -44,8 +38,10 @@ function CreateTodoScreen() {
       >
         <TextInput
           style={{ borderColor: "gray", borderWidth: 2, margin: 10, flex: 1 }}
+          value={todoValue}
+          onChangeText={setTodoValue}
         />
-        <Button title="Add" />
+        <Button title="Add" onPress={addTodo} />
       </View>
       <View style={{ flex: 1, backgroundColor: "tomato" }}></View>
     </View>
