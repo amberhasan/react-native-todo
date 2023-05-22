@@ -11,7 +11,7 @@ function CreateTodoScreen() {
 
   const createTodoItem = (value) => {
     return {
-      id: Math.random() * 100 + 1,
+      id: parseInt(Math.random() * 100 + 1, 10),
       name: value,
       completed: false,
     };
@@ -25,8 +25,46 @@ function CreateTodoScreen() {
     }
   };
 
+  const toggleCompleteButton = (props) => {
+    const newTodoList = todoList.map((todoItem) => {
+      if (todoItem.id == props.id) {
+        return {
+          ...todoItem,
+          completed: !props.completed,
+        };
+      } else {
+        return todoItem; //true
+      }
+    });
+    setTodoList(newTodoList);
+  };
+
+  const TodoItem = (props) => {
+    return (
+      <View style={{ flexDirection: "row", padding: 2 }}>
+        <Text
+          style={{
+            flex: 1,
+            backgroundColor:
+              props.completed == true ? "lightgreen" : "lightpink",
+            textAlignVertical: "center",
+            textAlign: "center",
+          }}
+        >
+          {props.name}
+        </Text>
+        <Button
+          title={props.completed == true ? "Complete" : "Not Complete"}
+          onPress={() => {
+            toggleCompleteButton(props);
+          }}
+        />
+      </View>
+    );
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: "lightpink", padding: 10 }}>
+    <View style={{ flex: 1, padding: 10 }}>
       <View
         style={{
           flex: 0,
@@ -43,9 +81,14 @@ function CreateTodoScreen() {
         />
         <Button title="Add" onPress={addTodo} />
       </View>
-      <View style={{ flex: 1, backgroundColor: "tomato" }}>
+      <View style={{ flex: 1, marginTop: 10 }}>
         {todoList.map((todo) => (
-          <Text key={todo.id}>{todo.name}</Text>
+          <TodoItem
+            key={todo.id}
+            id={todo.id}
+            name={todo.name}
+            completed={todo.completed}
+          />
         ))}
       </View>
     </View>
