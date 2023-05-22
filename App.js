@@ -43,7 +43,11 @@ function CreateTodoScreen() {
         />
         <Button title="Add" onPress={addTodo} />
       </View>
-      <View style={{ flex: 1, backgroundColor: "tomato" }}></View>
+      <View style={{ flex: 1, backgroundColor: "tomato" }}>
+        {todoList.map((todo) => (
+          <Text key={todo.id}>{todo.name}</Text>
+        ))}
+      </View>
     </View>
   );
 }
