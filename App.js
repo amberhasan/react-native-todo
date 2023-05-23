@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Button, TextInput } from "react-native";
+import { Text, View, Button, TextInput, FlatList } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -25,15 +25,15 @@ function CreateTodoScreen() {
     }
   };
 
-  const toggleCompleteButton = (props) => {
-    const newTodoList = todoList.map((todoItem) => {
-      if (todoItem.id == props.id) {
+  const toggleCompleteButton = (todoItem) => {
+    const newTodoList = todoList.map((item) => {
+      if (item.id == todoItem.id) {
         return {
-          ...todoItem,
-          completed: !props.completed,
+          ...item,
+          completed: !todoItem.completed,
         };
       } else {
-        return todoItem; //true
+        return item;
       }
     });
     setTodoList(newTodoList);
@@ -75,28 +75,42 @@ function CreateTodoScreen() {
         }}
       >
         <TextInput
-          style={{ borderColor: "gray", borderWidth: 2, margin: 10, flex: 1 }}
+          style={{
+            borderColor: "gray",
+            borderWidth: 2,
+            margin: 10,
+            flex: 1,
+            paddingLeft: 10,
+          }}
           value={todoValue}
           onChangeText={setTodoValue}
         />
         <Button title="Add" onPress={addTodo} />
       </View>
       <View style={{ flex: 1, marginTop: 10 }}>
-        {todoList.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            id={todo.id}
-            name={todo.name}
-            completed={todo.completed}
-          />
-        ))}
+        <FlatList
+          data={todoList}
+          renderItem={({ item }) => (
+            <TodoItem
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              completed={item.completed}
+            />
+          )}
+        />
       </View>
     </View>
   );
 }
 
 function CompletedTodoScreen() {
-  return <Text>Completed TODO</Text>;
+  return (
+    <View>
+      <Text>Completed TODO</Text>
+      <Text>Completed TODO</Text>
+    </View>
+  );
 }
 function MyTabs() {
   return (
